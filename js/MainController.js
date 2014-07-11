@@ -5,7 +5,18 @@
   /* @ngInject */
   function MainController ($scope, ParseService) {
     
-    $scope.hello = "Hello World";
+    ParseService.getIngredients(
+
+      function(results) {
+        console.log(results[0].attributes.description);
+        $scope.ingredients = results[0].attributes.description;
+      },
+
+      function(error) {
+        console.log(error);
+      }
+
+    );
 
 
 

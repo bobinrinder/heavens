@@ -6,12 +6,19 @@
 
     Parse.initialize("iaN6uDqJpyyt1HO6TDZCGGGW2N5IwIS3dAuYLE2g", "5uKLDfghmE5RDlPpgQ8hSKJZULBnc3TpeJEIdIM6");
 
-    var getSomething = function() {
-      return "Hallo";
+    var HeavensObject = Parse.Object.extend("heavens");
+
+    var getIngredients = function(successHandler, errorHandler) {
+      var query = new Parse.Query(HeavensObject);
+      query.equalTo("minimum", 0);
+      query.find({
+        success: successHandler,
+        error: errorHandler
+      });
     };
 
     return {
-      getSomething: getSomething
+      getIngredients: getIngredients
     };
   };
 
