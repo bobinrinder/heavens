@@ -42,7 +42,7 @@
       });
     };
 
-    var addIngredient = function(pBurgerId, pIngredientId) {
+    var addIngredientToBurger = function(pBurgerId, pIngredientId) {
       var BurgerIngredientsObject = Parse.Object.extend("BurgerIngredients");
       var burgerIngredients = new BurgerIngredientsObject();
       burgerIngredients.save({burgerId: pBurgerId, ingredientId: pIngredientId}, {
@@ -56,10 +56,13 @@
     };
 
     setBurgerName("0bTXcURGuZ", "Teschd");
-    addIngredient("0bTXcURGuZ","9CuxYpX9Cn");
+    addIngredientToBurger("0bTXcURGuZ","9CuxYpX9Cn");
 
     return {
-      getIngredients: getIngredients
+      getAllIngredients: getAllIngredients,
+      addIngredientToBurger: addIngredientToBurger,
+      createBurger: createBurger,
+      setBurgerName: setBurgerName
     };
   };
 
