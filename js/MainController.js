@@ -6,10 +6,17 @@
   function MainController ($scope, ParseService) {
 
     $scope.selected = [];
+    $scope.burger = {};
 
-    $scope.update = function(item, isActive){
-      if(isActive){
+    ParseService.createBurger(function(id){
+      $scope.burger.id = id;
+      $scope.burger.value = id;
+    });
+
+    $scope.update = function(item, isAdded){
+      if(isAdded){
         $scope.selected.push(item);
+        ParseService.addIngredientToBurger($scope.burger.id, item.id);
       } else {
 
 
@@ -20,9 +27,12 @@
           }
         }
 
-
         //console.log(item.id, $scope.selected, _.indexOf($scope.selected, item.id));
       }
+    };
+
+    $scope.save = function(){
+      ParseService.setBurgerName($scope.burger.id ,$scope.burger.value);
     };
 
 

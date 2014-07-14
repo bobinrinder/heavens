@@ -21,12 +21,11 @@
         <div class="col-sm-8">
 
           <div class="ingredient" ng-repeat="item in selected | orderShit">
-            <h1>{{item.attributes.name}}</h1>
-            {{item.attributes.description}}<br>
-            {{item.attributes.position}}
+            <img ng-src="{{item.attributes.picture._url}}">
           </div>
-          
-
+          <br>
+          <input type="text" ng-model="burger.value">
+          <button type="button" ng-click="save()">Speichern</button>
 
         </div>
         

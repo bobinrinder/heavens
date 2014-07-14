@@ -37,7 +37,7 @@
            object.save();
         },
         error: function(error) {
-          alert("Error: " + error.code + " " + error.message);
+          console.log(error);
         }
       });
     };
@@ -47,10 +47,10 @@
       var burgerIngredients = new BurgerIngredientsObject();
       burgerIngredients.save({burgerId: pBurgerId, ingredientId: pIngredientId}, {
         success: function(object) {
-           alert(object.objectId);
+           console.log("added ingredient: ", object.id);
         },
         error: function(error) {
-          alert("Error: " + error.code + " " + error.message);
+          console.log("Error: ", error);
         }
       });
     };
