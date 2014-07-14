@@ -20,13 +20,21 @@
 
         <div class="col-sm-8">
 
-          {{ingredients}}
+          {{selected}}
+
 
         </div>
         
         <div class="col-sm-4">
 
-          SideMenu
+          <div class="category" ng-repeat="ingredient in ingredients">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" ng-model="isActive" ng-change='update(ingredient, isActive)'> {{ingredient.attributes.name}}
+              </label>
+            </div>
+          </div>
+          
 
         </div>
 
@@ -39,7 +47,8 @@
 
     <!-- Scipts: -->
     <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.19.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.14/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.14/angular.min.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
 
 
     <script src="js/app.js"></script>
