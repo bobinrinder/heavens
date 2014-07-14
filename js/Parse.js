@@ -6,7 +6,7 @@
 
     Parse.initialize("iaN6uDqJpyyt1HO6TDZCGGGW2N5IwIS3dAuYLE2g", "5uKLDfghmE5RDlPpgQ8hSKJZULBnc3TpeJEIdIM6");
 
-    var getIngredients = function(successHandler, errorHandler) {
+    var getAllIngredients = function(successHandler, errorHandler) {
       var HeavensObject = Parse.Object.extend("heavens");
       var query = new Parse.Query(HeavensObject);
       query.equalTo("minimum", 0);
@@ -27,7 +27,7 @@
       });
     };
 
-    var addBurgerName = function(objectId, burgerName) {
+    var setBurgerName = function(objectId, burgerName) {
       var HeavensBurgerObject = Parse.Object.extend("heavensBurger");
       var query = new Parse.Query(HeavensBurgerObject);
       query.equalTo("objectId", objectId);
@@ -55,7 +55,7 @@
       });
     };
 
-    addBurgerName("0bTXcURGuZ", "Teschd");
+    setBurgerName("0bTXcURGuZ", "Teschd");
     addIngredient("0bTXcURGuZ","9CuxYpX9Cn");
 
     return {
