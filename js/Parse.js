@@ -55,8 +55,8 @@
       });
     };
 
-    setBurgerName("0bTXcURGuZ", "Teschd");
-    addIngredientToBurger("0bTXcURGuZ","9CuxYpX9Cn");
+    //setBurgerName("0bTXcURGuZ", "Teschd");
+    //addIngredientToBurger("0bTXcURGuZ","9CuxYpX9Cn");
 
     return {
       getAllIngredients: getAllIngredients,
@@ -65,9 +65,6 @@
       setBurgerName: setBurgerName
     };
   };
-
-  
-
 
   // MainController.$inject = ['$scope', 'Parse'];
 

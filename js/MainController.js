@@ -15,7 +15,7 @@
 
         for (var i = $scope.selected.length - 1; i >= 0; i--) {
           if($scope.selected[i].id === item.id){
-            console.log($scope.selected.splice(i, i + 1));
+            console.log($scope.selected.splice(i, 1));
             break;
           }
         }
@@ -26,7 +26,7 @@
     };
 
 
-    ParseService.getIngredients(
+    ParseService.getAllIngredients(
 
       function(results) {
         console.log(results[0].attributes.description );
