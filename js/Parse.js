@@ -55,11 +55,11 @@
       });
     };
 
-    setBurgerName("0bTXcURGuZ", "Teschd");
-    addIngredient("0bTXcURGuZ","9CuxYpX9Cn");
+    //setBurgerName("0bTXcURGuZ", "Teschd");
+    //addIngredient("0bTXcURGuZ","9CuxYpX9Cn");
 
     return {
-      getIngredients: getIngredients
+      getAllIngredients: getAllIngredients
     };
   };
 

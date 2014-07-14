@@ -20,7 +20,12 @@
 
         <div class="col-sm-8">
 
-          {{selected}}
+          <div class="ingredient" ng-repeat="item in selected | orderShit">
+            <h1>{{item.attributes.name}}</h1>
+            {{item.attributes.description}}<br>
+            {{item.attributes.position}}
+          </div>
+          
 
 
         </div>
@@ -53,6 +58,7 @@
     <script src="js/app.js"></script>
     <script src="js/MainController.js"></script>
     <script src="js/Parse.js"></script>
+    <script src="js/OrderFilter.js"></script>
 
   </body>
 
