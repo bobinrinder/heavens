@@ -1,0 +1,8 @@
+@charset "utf-8";
+/* Custom CSS */
+html, body {
+  background-color: #09A1E4;
+}
+#burgercontainer, #ingredientcontainer {
+	height: 300px;
+}
