@@ -26,16 +26,19 @@
 
   <body ng-controller="ingredientCtrl">
 
+    <!-- THE HEADER --> 
     <div class="container">
-      <div id="headerTitle" class="inner">
-        <h3 class="masthead-brand">Heaven's</h3>
+      <div id="header" class="inner">
+        <h3 class="headerTitle">Heaven's</h3>
         <h4>Configure your perfect burger!</h4>
       </div>
     </div>
 
+    <!-- THE CONTENT AREA --> 
     <div class="container">
       <div class="row">
 
+        <!-- THE BURGER AREA -->
         <div class="col-sm-2 col-sm-offset-3">
           <div id="burgerid" burgerdir>
             <h4 ng-show="!!!burger.length">Drag ingredients here!</h4>
@@ -49,24 +52,33 @@
           <span>&nbsp;</span>
         </div>
 
+        <!-- THE INGREDIENT AREA -->
         <div class="col-sm-5">
           <div class="ingredientFrame" indexf="{{$index}}" ng-repeat="ingredient in ingredients">
-            <span draggableelm class="ingredientAcc" index="{{$index}}" ingObj="{{ingredient}}" deactivateddir>&nbsp; <img indexi="{{$index}}" src="{{ingredient.thumb}}" /> &nbsp; <strong>{{ingredient.name}}</strong> | {{ingredient.price|currency}}</span><!-- <i class="fa fa-plus-circle fa-1x"></i> -->
+            <span draggableelm class="ingredientAcc" index="{{$index}}" deactivateddir>&nbsp; <img indexi="{{$index}}" src="{{ingredient.thumb}}" /> &nbsp; <strong>{{ingredient.name}}</strong> | {{ingredient.price|currency}}</span><!-- <i class="fa fa-plus-circle fa-1x"></i> -->
           </div> 
         </div>
 
       </div>
 
+      <!-- THE ALERT AREA -->
       <div id="alertFrame" class="col-sm-12">
         <span id="alertText">You already reached the maximum amount of this ingredient, sorry! :(</span>
       </div>
 
+      <!-- THE BURGER PRICE AREA -->
       <div id="burgerPriceFrame" class="col-sm-12">
         <h4>Your configurated perfect burger costs <span id="burgerprice">$0</span></h4>
       </div>
 
+      <!-- THE TRASH BIN AREA -->
       <div id="trashFrame" class="col-sm-12">
         <i id="trashbin" class="fa fa-trash fa-4x" ng-click="removeAllIngredients()" trash></i>
+      </div>
+
+      <!-- THE FOOTER AREA -->
+      <div id="footer" class="col-sm-12">
+        <p>This prototype is for presentation purposes only!<br /><br />Libraries used: Bootstrap, Font Awesome, Angular.JS, jQuery, jQuery UI and the jQuery UI Touch Punch<br /><br />Copyright by <a href="http://robinbinder.com" target="_blank">Robin Binder</a></p>
       </div>
 
     </div>
