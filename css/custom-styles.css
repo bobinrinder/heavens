@@ -1,8 +1,116 @@
 @charset "utf-8";
 /* Custom CSS */
 html, body {
-  background-color: #09A1E4;
+	background-color: #09A1E4;
 }
 #burgercontainer, #ingredientcontainer {
 	height: 300px;
+}
+
+@font-face {
+	font-family: wh;
+	src: url(./../font/wh.ttf);
+}
+
+@font-face {
+	font-family: wh;
+	src: url(./../font/wh.ttf);
+	font-weight: bold;
+}
+
+body {
+	color: white;
+	text-align: center;
+}
+h2 {
+	text-align: left;
+}
+h3 {    
+	font-family: wh;
+	font-size: 48px;
+}
+h4 {    
+	font-family: wh;
+	padding-top: 10px;
+}
+#burgerid {
+	width: 190px;
+	height: 220px;
+	color: #fff;
+	padding: 0px;
+}
+#trash {
+	width: 100px;
+	height: 100px;
+	background: #888;
+	color: #fff;
+	padding: 10px;
+}
+.draggableelm2 {
+	position: relative;
+	float: left;
+	font-size: 8px;
+}
+.ingredientFrame {
+	border: 1px solid;
+	border-radius: 5px;
+	padding: 5px;
+	margin-bottom: 10px;
+	width: 210px;
+	height: 35px;
+}
+.ingredientFrameDeactivated {
+	border: 1px solid;
+	border-color: rgba(255, 255, 255, 0.5);
+}
+.ingredientAcc {
+	cursor: pointer;
+	text-align: left;
+	float: left;
+	width: 190px;
+	height: 28px;
+	color: white;
+}
+.ingredientImageDeactivated {
+	opacity: 0.4;
+	filter: alpha(opacity=40); /* msie */
+}
+.ingredientDeactivated {
+	cursor: default;
+	text-align: left;
+	float: left;
+	color: rgba(255, 255, 255, 0.5);
+}
+.masthead-brand {
+	float: none;
+}
+#headerTitle {
+	text-align: center;
+	height: 170px;
+	padding-top: 15px;
+}
+#trashFrame {
+	height: 100px;
+}
+#trashbin {
+	cursor: pointer;
+	height: 75px;
+	width: 150px;
+	padding-top: 20px;
+}
+#alertFrame {
+	height: 40px;
+	text-align: center;
+	visibility: hidden;
+	margin-top: 30px;
+}
+#alertText {
+	font-family: wh;
+	background-color: white;
+	color: #09A1E4;
+	border-radius: 5px;
+	padding: 9px;
+	width: 550px;
+	text-align: center;
+	font-weight: bold;
 }

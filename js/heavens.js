@@ -2,12 +2,30 @@ angular.module('heavens', [])
 
 	.controller('ingredientCtrl', function($scope){
 		$scope.ingredients = [
-			{ name: 'Sesambrot', max: 1, price: 1.49, img: './img/sesam.gif', thumb: './img/sesam_th.png', orderValue: 10000 },
-			{ name: 'Tomate', max: 2, price: 0.79, img: './img/tomate.gif', thumb: './img/tomate_th.png', orderValue: 7000 },
-			{ name: 'Salat', max: 4, price: 0.99, img: './img/salat.gif', thumb: './img/salat_th.png', orderValue: 6000 },
-			{ name: 'Chicken', max: 3, price: 2.99, img: './img/chicken.gif', thumb: './img/chicken_th.png', orderValue: 5000 }
+			{ name: 'Sesame', max: 1, price: 1.49, img: './img/sesam.gif', thumb: './img/sesam_th.png', orderValue: 10000, marginTop: 0, marginBottom: 0, zIndex: 4 },
+			{ name: 'Tomato', max: 2, price: 0.79, img: './img/tomate.gif', thumb: './img/tomate_th.png', orderValue: 7000, marginTop: -3, marginBottom: 0, zIndex: 1 },
+			{ name: 'Salad', max: 3, price: 0.99, img: './img/salat.gif', thumb: './img/salat_th.png', orderValue: 6000, marginTop: -10, marginBottom: -10, zIndex: 5 },
+			{ name: 'Chicken', max: 3, price: 2.99, img: './img/chicken.gif', thumb: './img/chicken_th.png', orderValue: 5000, marginTop: -5, marginBottom: -9, zIndex: 3 },
+			{ name: 'Cheddar', max: 1, price: 0.99, img: './img/cheddar.gif', thumb: './img/cheddar_th.png', orderValue: 5100, marginTop: 0, marginBottom: -12, zIndex: 7 }
 		];
 		$scope.burger = [];
+		$scope.burgerPrice = 0;
+		$scope.preloadImageSrcArray = [];
+		$scope.preloadImageArray = [];
+
+		// Preload function for the images
+		$scope.preloadImages = function(imageArray) {
+			for (var i = 0; i < imageArray.length; i++) {
+				$scope.preloadImageArray[i] = new Image();
+				$scope.preloadImageArray[i].src = imageArray[i];
+      		}
+  		};
+
+		// Preload the ingredient images to make it smooth
+		for (var i = 0; i < $scope.ingredients.length; i++) {
+			$scope.preloadImageSrcArray.push($scope.ingredients[i].img);
+		}
+		$scope.preloadImages($scope.preloadImageSrcArray);
 
 		// Checks if the maximum amount of ingredients (as defined in ingredient.max) is reached, returns true if it is reached
 		$scope.checkMaxIngredientAmount = function(ingredientId) {
@@ -21,21 +39,26 @@ angular.module('heavens', [])
 					// Exit early if maximum amount for the ingredient is reached
 					if (ingredientAmountOnBurger === $scope.ingredients[ingredientId].max) {
 						return true;
-					};
-				};
-			};
+					}
+				}
+			}
 			// No maximum reached -> Further ingredient can be added
 			return false;
 		};
 
 		// Gets the total price of the burger (selected ingredients)
 		$scope.getBurgerPrice = function() {
-			var price = 0;
+			$scope.burgerPrice = 0;
 			for(var i = 0; i < $scope.burger.length; i++) {
-				price += $scope.burger[i].price;
-				price = Math.round(price * 100) / 100;
-			};
-			return price;
+				$scope.burgerPrice += $scope.burger[i].price;
+				$scope.burgerPrice = Math.round($scope.burgerPrice * 100) / 100;
+			}
+			return $scope.burgerPrice;
+		};
+
+		// Function updates the burger price manually
+		$scope.updateBurgerPrice = function() {
+			$( "#burgerprice" ).text("$" + $scope.getBurgerPrice());
 		};
 
 		// Adds a new ingredient to the burger if maximum not reached
@@ -47,14 +70,21 @@ angular.module('heavens', [])
 				// Actually add the ingredient as the maximum is not reached yet
 			else {
 				$scope.$apply($scope.burger.push($scope.ingredients[ingredientId]));
+				// Push the bottom part in the array as well if it's a bread (orderValue = 10000)
+				if ($scope.ingredients[ingredientId].orderValue === 10000) {
+					var burgerBottomImg = $scope.ingredients[ingredientId].img.substring(0, $scope.ingredients[ingredientId].img.length - 4) + '_b.gif';
+					$scope.$apply($scope.burger.push({ name: $scope.ingredients[ingredientId].name , max: 1, price: 0, img: $scope.ingredients[ingredientId].img.substring(0, $scope.ingredients[ingredientId].img.length - 4) + '_b.gif', thumb: './img/sesam_th.png', orderValue: 1000, marginTop: 0, marginBottom: 0, zIndex: 4 }));
+				}
 				// If maximum is reached after adding, disable draggable and grey out element
 				if ($scope.checkMaxIngredientAmount(ingredientId)) {
 					$scope.changeIngredientStatus(ingredientId, false);
-				};
+				}
+				// Update the price tag
+				$scope.updateBurgerPrice();
 				// Logging for debugging
 				console.log("Ingredient " + $scope.ingredients[ingredientId].name + " added to Burger! --> Burger price now: " + $scope.getBurgerPrice());
 				return true;
-			};	
+			}	
 		};
 
 		// Change active status of an ingredient (if max is reached) and set the button inactive/active
@@ -72,7 +102,7 @@ angular.module('heavens', [])
 				$("div[indexf='" + ingredientId + "']").addClass("ingredientFrameDeactivated");
 				$("img[indexi='" + ingredientId + "']").addClass("ingredientImageDeactivated");	
 				$("span[index='" + ingredientId + "']").draggable({ disabled: true });
-			};
+			}
 		};
 
 		// Returns the index of the first given ingredient on the burger
@@ -80,8 +110,18 @@ angular.module('heavens', [])
 			for(var i = 0; i < $scope.burger.length; i++){
 				if ($scope.burger[i].name === $scope.ingredients[ingredientId].name) {
 					return i;
-				};
-			};
+				}
+			}
+			return -1;
+		};
+
+		// Returns the index of the burger bottom on the burger
+		$scope.getBurgerBottomIngredientIndex = function (ingredientId) {
+			for(var i = 0; i < $scope.burger.length; i++){
+				if ($scope.burger[i].img === $scope.ingredients[ingredientId].img.substring(0,$scope.ingredients[ingredientId].img.length-4) + "_b.gif") {
+					return i;
+				}
+			}
 			return -1;
 		};
 
@@ -91,12 +131,52 @@ angular.module('heavens', [])
 			var ingredientIndex = $scope.getBurgerIngredientIndex(ingredientId);
 			// If the ingredient was found it will be deleted of the burger array
 			if (ingredientIndex > -1) {
+				// Delete the ingredient
 				$scope.$apply($scope.burger.splice(ingredientIndex, 1));
+				// Delete the bottom part of the burger if it was a bread
+				if ($scope.ingredients[ingredientId].orderValue === 10000) {
+					$scope.$apply($scope.burger.splice($scope.getBurgerBottomIngredientIndex(ingredientId),1));
+				}
+				// Make the ingredient available again (as it is -1 from the max now at least)
 				$scope.changeIngredientStatus(ingredientId, true);
+				// Update the price tag
+				$scope.updateBurgerPrice();
+				// Some debug loggin
 				console.log("Ingredient " + $scope.ingredients[ingredientId].name + " removed from Burger! --> Burger price now: " + $scope.getBurgerPrice());
+				// Everything fine...
 				return true;
-			};
+			}
 			return false;
+		};
+
+		// Prepare removal of dragged ingredient from the burger
+		$scope.prepareIngredientRemoval = function(scope, ui) {
+			for(var i = 0; i < scope.ingredients.length; i++){
+				// Extract normal image tag
+				var burgerImg = ui.draggable[0].innerHTML.substring(10,ui.draggable[0].innerHTML.length-2);
+				// Change normal image tag to identify bread bottoms (they end on _b.gif)
+				var burgerImgBotton = ui.draggable[0].innerHTML.substring(10,ui.draggable[0].innerHTML.length-2).replace("_b","");
+				// Compare to both image tags
+				if(scope.ingredients[i].img === burgerImg || scope.ingredients[i].img === burgerImgBotton){
+					// After finding the correct ingredient it gets deleted of the burger
+					scope.removeIngredient(i);
+					return true;
+				}
+			}
+			return false;
+		};
+
+		// Delete all ingredients from the burger
+		$scope.removeAllIngredients = function() {
+			// Empty the burger array
+			$scope.$apply($scope.burger = []);
+			// Make all ingredients available again
+			for (var i = 0; i < $scope.ingredients.length; i++) {
+				$scope.changeIngredientStatus(i, true);
+			}
+			// Update the price tag
+			$scope.updateBurgerPrice();
+			return true;
 		};
 	})
 
@@ -121,15 +201,7 @@ angular.module('heavens', [])
 			// Define the details of elements that are dropped in this area
 			element.droppable({
 				drop: function(event, ui) {		
-					// Iterates through the ingredients to check which one was dropped	    
-				    for(var i = 0; i < scope.ingredients.length; i++){
-				    	if(scope.ingredients[i].img === ui.draggable[0].innerHTML.substring(10,ui.draggable[0].innerHTML.length-2)){
-				    		// After finding the correct ingredient it gets deleted of the burger
-					    	scope.removeIngredient(i);
-					    	$( "#alertFrame" ).css("visibility", "hidden");
-					    	break;
-					    };
-				    };
+					scope.prepareIngredientRemoval(scope, ui);
 				}
 			});
 		};
@@ -158,34 +230,28 @@ angular.module('heavens', [])
 				hoverClass: 'fa-5x',
 				drop: function(event, ui) {
 					// Remove dragged ingredient from the burger
-					for(var i = 0; i < scope.ingredients.length; i++){
-				    	if(scope.ingredients[i].img === ui.draggable[0].innerHTML.substring(10,ui.draggable[0].innerHTML.length-2)){
-				    		// After finding the correct ingredient it gets deleted of the burger
-					    	scope.removeIngredient(i);
-					    	break;
-					    };
-				    };
+					scope.prepareIngredientRemoval(scope, ui);
 				}
 			});
 		};
 	})
 
-	// Directive for displaying an alert that the maximum ingredient amount is reached on rollover
+	// Directive for displaying an alert that the maximum ingredient amount is reached (on ingredient rollover)
 	.directive('deactivateddir', function() {
-			return {
-				link: function(scope, element, attr) {
-					element.parent().bind('mouseenter', function() {
-						console.log(element);
-						console.log(attr);
-						if (scope.checkMaxIngredientAmount(element.context.outerHTML.substring(element.context.outerHTML.search("index=")+7,element.context.outerHTML.search("index=")+8))) {
-							$( "#alertFrame" ).css("visibility", "visible");
-						}		                
-		            });
-		            element.parent().bind('mouseleave', function() {
-		                if (scope.checkMaxIngredientAmount(element.context.outerHTML.substring(element.context.outerHTML.search("index=")+7,element.context.outerHTML.search("index=")+8))) {
-							$( "#alertFrame" ).css("visibility", "hidden");
-						}
-		            });
-				}
-			};
+		return {
+			link: function(scope, element, attr) {
+				// Make the alert visible on mouseenter (if maximum is reached)
+				element.parent().bind('mouseenter', function() {
+					if (scope.checkMaxIngredientAmount(element.context.outerHTML.substring(element.context.outerHTML.search("index=")+7,element.context.outerHTML.search("index=")+8))) {
+						$( "#alertFrame" ).css("visibility", "visible");
+					}		                
+				});
+				// Hide the alert again after mouseleave
+				element.parent().bind('mouseleave', function() {
+					if (scope.checkMaxIngredientAmount(element.context.outerHTML.substring(element.context.outerHTML.search("index=")+7,element.context.outerHTML.search("index=")+8))) {
+						$( "#alertFrame" ).css("visibility", "hidden");
+					}
+				});
+			}
+		};
 	})
