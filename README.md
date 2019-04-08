@@ -1,7 +1,7 @@
 Heaven's - The Burger Configurator
 ==========================================
 
-See it in action: <a href="http://robinbinder.com/heavens" target="_blank">robinbinder.com/heavens</a>
+See it in action: <a href="http://bobinrinder.github.io/heavens/" target="_blank">http://bobinrinder.github.io/heavens/</a>
 
 <b>This prototype is for presentation purposes only!</b>
 
